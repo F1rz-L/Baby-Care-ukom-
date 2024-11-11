@@ -1,0 +1,27 @@
+meta {
+  name: Store Pelanggan
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/api/pelanggan
+  body: multipartForm
+  auth: none
+}
+
+body:form-urlencoded {
+  id_jenis: 1
+  namabarang: Mainan
+  merek: Hasbro
+  deskripsi: YA ya
+  harga: 5000
+  ~id_peminjam: 
+}
+
+body:multipart-form {
+  nama: Joni100
+  alamat: Jl. Bangah No.100
+  nomor_telepon: 100100100
+  nik: 000000000100
+}

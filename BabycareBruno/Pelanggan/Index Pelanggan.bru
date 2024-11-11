@@ -1,0 +1,28 @@
+meta {
+  name: Index Pelanggan
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://127.0.0.1:8000/api/pelanggan
+  body: multipartForm
+  auth: none
+}
+
+body:form-urlencoded {
+  id_jenis: 1
+  namabarang: Mainan
+  merek: Hasbro
+  deskripsi: YA ya
+  harga: 5000
+  ~id_peminjam: 
+}
+
+body:multipart-form {
+  id_jenis: 1
+  namabarang: Toy
+  merek: Hasbro
+  deskripsi: YA ya
+  harga: 8000
+}

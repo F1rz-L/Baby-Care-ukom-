@@ -1,0 +1,17 @@
+meta {
+  name: Pinjam
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/api/pinjam
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  id_peminjam: 1
+  id_barang: 1
+  durasiminggu: 1
+}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.DashboardActivity"
+    android:padding="16dp"
+    android:id="@+id/main">
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Hai, User"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/greetings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="-8dp"
+        android:fontFamily="@font/poppinsmedium"
+        android:text="Selamat Datang"
+        android:textColor="#45000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <ImageView
+        android:id="@+id/profile"
+        android:layout_width="71dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile_2" />
+
+    <ImageView
+        android:id="@+id/gambar"
+        android:layout_width="335dp"
+        android:layout_height="235dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greetings"
+        app:srcCompat="@drawable/logo_full" />
+
+    <!-- Card Admin -->
+    <LinearLayout
+        android:id="@+id/card_admin"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="29dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/button_shape2"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gambar"
+        android:orientation="horizontal"
+        android:paddingHorizontal="35dp"
+        android:paddingVertical="20dp"
+        >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/admin_alt"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppinsbold"
+                android:textSize="24dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Masuk sebagai admin"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!-- Card Customer -->
+    <LinearLayout
+        android:id="@+id/card_kasir"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="29dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_shape2"
+        android:elevation="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_admin"
+        android:orientation="horizontal"
+        android:paddingHorizontal="35dp"
+        android:paddingVertical="20dp"
+        >
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/customer_care"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
+                android:text="Kasir"
+                android:textColor="@color/white"
+                android:textSize="24dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Masuk sebagai kasir"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="username,greetings,profile" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
