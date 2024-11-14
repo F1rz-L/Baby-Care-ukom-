@@ -161,7 +161,7 @@
                         android:orientation="vertical"
                         >
                         <Button
-                            android:id="@+id/tambah_data"
+                            android:id="@+id/btnTmbhKategori"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/poppinsbold"

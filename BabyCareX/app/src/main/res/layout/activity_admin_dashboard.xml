@@ -208,7 +208,7 @@
                                     app:tint="@color/white" />
 
                                 <ImageView
-                                    android:id="@+id/btnTambahBarang"
+                                    android:id="@+id/btnTmbhBarang"
                                     android:layout_width="0dp"
                                     android:layout_height="30dp"
                                     android:layout_weight="1"
@@ -253,6 +253,7 @@
                                 android:orientation="horizontal">
 
                                 <ImageView
+                                    android:id="@+id/btnSemuaKategori"
                                     android:layout_width="0dp"
                                     android:layout_height="30dp"
                                     android:layout_weight="1"
@@ -261,7 +262,7 @@
                                     app:tint="@color/white" />
 
                                 <ImageView
-                                    android:id="@+id/btnTambahKategori"
+                                    android:id="@+id/btnTmbhKategori"
                                     android:layout_width="0dp"
                                     android:layout_height="30dp"
                                     android:layout_weight="1"

@@ -1,4 +1,4 @@
-package com.konyol.babycarex.activity
+package com.konyol.babycarex.activity.guest
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,28 +6,27 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.konyol.babycarex.activity.admin.AdminDashboardActivity
-import com.konyol.babycarex.databinding.ActivityDashboardBinding
-import com.konyol.babycarex.activity.kasir.KasirHomeActivity
+import com.konyol.babycarex.databinding.ActivityMainBinding
 
-class DashboardActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityDashboardBinding
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityDashboardBinding.inflate(layoutInflater)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.cardAdmin.setOnClickListener {
-            startActivity(Intent(this, AdminDashboardActivity::class.java))
+        binding.btnLogin.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
-        binding.cardKasir.setOnClickListener {
-            val intent = Intent(this, KasirHomeActivity::class.java)
-            startActivity(intent)
+        binding.btnRegister.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 }

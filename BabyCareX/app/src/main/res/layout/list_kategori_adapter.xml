@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/card_grey"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="6dp"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="14dp"
+                android:src="@drawable/ic_category"
+                app:tint="@color/SecondaryColor" />
+
+            <TextView
+                android:id="@+id/tvKategori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/poppinssemibold"
+                android:foregroundGravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="Mainan"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="4dp">
+
+
+        <ImageView
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/button_shape2"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_edit"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/button_shape2"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_trash"
+            app:tint="@color/white" />
+    </LinearLayout>
+</LinearLayout>

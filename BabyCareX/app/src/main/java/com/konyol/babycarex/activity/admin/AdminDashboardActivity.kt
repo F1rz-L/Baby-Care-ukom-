@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.konyol.babycarex.activity.DashboardActivity
+import com.konyol.babycarex.activity.guest.DashboardActivity
 import com.konyol.babycarex.R
 import com.konyol.babycarex.databinding.ActivityAdminDashboardBinding
 
@@ -25,10 +25,13 @@ class AdminDashboardActivity : AppCompatActivity() {
         binding.back.setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
         }
-        binding.btnTambahBarang.setOnClickListener {
+        binding.btnTmbhBarang.setOnClickListener {
             startActivity(Intent(this, TambahBarangActivity::class.java))
         }
-        binding.btnTambahKategori.setOnClickListener {
+        binding.btnSemuaKategori.setOnClickListener {
+            startActivity(Intent(this, SemuaKategoriActivity::class.java))
+        }
+        binding.btnTmbhKategori.setOnClickListener {
             startActivity(Intent(this, TambahKategoriActivity::class.java))
         }
 //        binding.btnTambahPelanggan.setOnClickListener {

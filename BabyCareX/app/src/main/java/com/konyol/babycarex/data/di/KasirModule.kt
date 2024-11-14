@@ -1,5 +1,5 @@
 // AppModule.kt
-package com.konyol.babycarex.di
+package com.konyol.babycarex.data.di
 
 import com.konyol.babycarex.R
 import com.konyol.babycarex.adapter.BarangKasirAdapter

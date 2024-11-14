@@ -37,6 +37,30 @@ class KategoriController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        $data = [
+            'kategori' => $request->kategori,
+        ];
+
+        $kategori = Kategori::find($id);
+
+        if (!$kategori) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Kategori Tidak Ditemukan',
+                'data' => ''
+            ], 404);
+        } else {
+            $kategori->update($data);
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Kategori Berhasil Diubah',
+                'data' => $kategori
+            ], 200);
+        }
+    }
+
     public function store(Request $request)
     {
         $data = [

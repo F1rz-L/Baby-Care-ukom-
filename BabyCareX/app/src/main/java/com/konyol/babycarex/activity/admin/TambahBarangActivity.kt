@@ -7,9 +7,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.konyol.babycarex.R
 import com.konyol.babycarex.databinding.ActivityTambahBarangBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TambahBarangActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityTambahBarangBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,7 +25,5 @@ class TambahBarangActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
     }
 }

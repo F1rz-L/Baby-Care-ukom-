@@ -1,4 +1,4 @@
-package com.konyol.babycarex.activity
+package com.konyol.babycarex.activity.guest
 
 import android.content.Intent
 import android.os.Bundle

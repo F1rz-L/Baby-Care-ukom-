@@ -358,13 +358,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
+
                     <Button
-                        android:id="@+id/tambah_data"
+                        android:id="@+id/btnTmbhKategori"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/poppinsbold"
                         android:background="@drawable/button_shape"
-                        android:text="Tambah Data"/>
+                        android:fontFamily="@font/poppinsbold"
+                        android:text="Simpan" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

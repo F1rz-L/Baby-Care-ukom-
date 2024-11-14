@@ -1,0 +1,24 @@
+meta {
+  name: Delete Kategori
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://127.0.0.1:8000/api/kategori/5
+  body: multipartForm
+  auth: none
+}
+
+body:form-urlencoded {
+  id_jenis: 1
+  namabarang: Mainan
+  merek: Hasbro
+  deskripsi: YA ya
+  harga: 5000
+  ~id_peminjam: 
+}
+
+body:multipart-form {
+  kategori: Mainan
+}
