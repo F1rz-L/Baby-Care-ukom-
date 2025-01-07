@@ -22,8 +22,11 @@ class AdminDashboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.back.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
+        }
+        binding.btnSemuaBarang.setOnClickListener {
+            startActivity(Intent(this, SemuaBarangActivity::class.java))
         }
         binding.btnTmbhBarang.setOnClickListener {
             startActivity(Intent(this, TambahBarangActivity::class.java))
@@ -34,8 +37,11 @@ class AdminDashboardActivity : AppCompatActivity() {
         binding.btnTmbhKategori.setOnClickListener {
             startActivity(Intent(this, TambahKategoriActivity::class.java))
         }
-//        binding.btnTambahPelanggan.setOnClickListener {
-//            startActivity(Intent(this, ::class.java))
-//        }
+        binding.btnSemuaPelanggan.setOnClickListener {
+            startActivity(Intent(this, SemuaPelangganActivity::class.java))
+        }
+        binding.btnTambahPelanggan.setOnClickListener {
+            startActivity(Intent(this, TambahPelangganActivity::class.java))
+        }
     }
 }

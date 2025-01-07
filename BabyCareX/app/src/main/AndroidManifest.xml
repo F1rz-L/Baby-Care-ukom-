@@ -19,7 +19,16 @@
         android:theme="@style/Theme.BabyCareX"
         tools:targetApi="31">
         <activity
+            android:name=".activity.admin.SemuaBarangActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.admin.SemuaKategoriActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.admin.SemuaPelangganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.admin.TambahPelangganActivity"
             android:exported="false" />
         <activity
             android:name=".activity.guest.HomeActivity"

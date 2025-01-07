@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('id_kategori')->nullable();
             $table->integer('id_peminjam')->nullable();
             $table->string('namabarang');
-            $table->string('merek');
+            $table->string('merk');
             $table->text('deskripsi');
             $table->integer('harga');
             $table->string('gambar')->nullable();

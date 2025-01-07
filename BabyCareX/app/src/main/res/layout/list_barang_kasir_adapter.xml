@@ -51,7 +51,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/merk"
+                        android:id="@+id/tvMerk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -71,7 +71,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/kategori"
+                        android:id="@+id/tvKategori"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"

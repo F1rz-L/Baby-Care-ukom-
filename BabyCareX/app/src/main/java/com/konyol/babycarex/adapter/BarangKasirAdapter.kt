@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.konyol.babycarex.R
-import com.konyol.babycarex.databinding.ListBarangAdapterBinding
+import com.konyol.babycarex.databinding.ListBarangKasirAdapterBinding
 import com.konyol.babycarex.activity.kasir.ListBarangModel
 import com.squareup.picasso.Picasso
 
@@ -16,11 +16,11 @@ class BarangKasirAdapter(
     private val itemList: List<ListBarangModel>
 ) : RecyclerView.Adapter<BarangKasirAdapter.BarangViewHolder>() {
 
-    class BarangViewHolder(val binding: ListBarangAdapterBinding) : RecyclerView.ViewHolder(binding.root)
+    class BarangViewHolder(val binding: ListBarangKasirAdapterBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarangViewHolder {
         // Inflate the layout using binding
-        val binding = ListBarangAdapterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ListBarangKasirAdapterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return BarangViewHolder(binding)
     }
 
@@ -30,8 +30,8 @@ class BarangKasirAdapter(
         // Access views directly through binding
         holder.binding.apply {
             nama.text = item?.nama
-            merk.text = item?.merk
-            kategori.text = item?.kategori
+            tvMerk.text = item?.merk
+            tvKategori.text = item?.kategori
             Picasso.get().load(item.gambar).into(gambar)
             harga.text = item?.harga
 

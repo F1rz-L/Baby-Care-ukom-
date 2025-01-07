@@ -1,19 +1,19 @@
 meta {
   name: Store Barang
   type: http
-  seq: 1
+  seq: 2
 }
 
 post {
   url: http://127.0.0.1:8000/api/barang
-  body: multipartForm
+  body: formUrlEncoded
   auth: none
 }
 
 body:form-urlencoded {
-  id_jenis: 1
+  id_kategori: 1
   namabarang: Mainan
-  merek: Hasbro
+  merk: Hasbro
   deskripsi: YA ya
   harga: 5000
   ~id_peminjam: 
@@ -22,7 +22,7 @@ body:form-urlencoded {
 body:multipart-form {
   id_kategori: 1
   namabarang: Toy
-  merek: Hasbro
+  merk: Hasbro
   deskripsi: YA ya
   harga: 8000
 }

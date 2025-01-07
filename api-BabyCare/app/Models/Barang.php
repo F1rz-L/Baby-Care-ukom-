@@ -14,7 +14,7 @@ class Barang extends Model
         'id_peminjam',
         'namabarang',
         'deskripsi',
-        'merek',
+        'merk',
         'harga',
         'gambar',
         'status'
