@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/background"
+    tools:context=".activity.guest.VerificationActivity">
+
+    <TextView
+        android:id="@+id/R_txt_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Verifikasi!"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/R_txt_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/R_txt_1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="Verifikasi email dahulu unutk melanjutkan daftar"
+        android:textColor="@color/black"
+        android:textSize="12sp" />
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ly_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/R_txt_2"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/verification_animation"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_marginVertical="20dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/verification_anim" />
+
+        <com.mukeshsolanki.OtpView
+            android:id="@+id/otp_verification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:inputType="number"
+            android:itemBackground="@color/white"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            app:OtpHideLineWhenFilled="true"
+            app:OtpItemCount="6"
+            app:OtpItemSpacing="6dp"
+            app:OtpState_filled="true"
+            app:OtpViewType="line" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lblGunakanAkunlain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ly_1"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppinsregular"
+        android:text="Bukan emailmu ? Gunakan akun lain"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:visibility="gone" />
+    <Button
+        android:id="@+id/V_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lblGunakanAkunlain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/poppinsbold"
+        android:text="Verifikasi"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/V_btn"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsregular"
+            android:text="Email tidak masuk ?"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_kirim_ulang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinssemibold"
+            android:text=" Kirim ulang "
+            android:layout_marginStart="2dp"
+            android:textColor="@color/SecondaryColor"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

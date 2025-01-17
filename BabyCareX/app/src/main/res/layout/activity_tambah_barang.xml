@@ -160,7 +160,7 @@
                     app:boxStrokeWidthFocused="3dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_model"
+                        android:id="@+id/edt_nama_barang"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="@font/poppinsregular"
@@ -202,7 +202,7 @@
                     app:boxStrokeWidthFocused="3dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_seats"
+                        android:id="@+id/edt_merk"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="@font/poppinsregular"
@@ -245,7 +245,7 @@
                     app:endIconMode="dropdown_menu">
 
                     <AutoCompleteTextView
-                        android:id="@+id/edt_categories"
+                        android:id="@+id/edt_kategori"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="@font/poppinsregular"
@@ -253,6 +253,7 @@
                         android:inputType="none"
                         android:maxLines="1"
                         android:paddingStart="20dp"
+                        android:popupBackground="@color/white"
                         android:paddingEnd="20dp" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -286,7 +287,7 @@
                     app:boxStrokeWidthFocused="3dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_price"
+                        android:id="@+id/edt_harga"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="@font/poppinsregular"
@@ -328,7 +329,7 @@
                     app:boxStrokeWidthFocused="3dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_description"
+                        android:id="@+id/edt_deskripsi"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:fontFamily="@font/poppinsregular"
@@ -354,7 +355,7 @@
                     android:orientation="vertical">
 
                     <Button
-                        android:id="@+id/btnTmbhKategori"
+                        android:id="@+id/btnTmbhBarang"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/button_shape"

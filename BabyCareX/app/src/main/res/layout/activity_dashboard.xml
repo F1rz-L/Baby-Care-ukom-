@@ -46,7 +46,7 @@
         android:id="@+id/gambar"
         android:layout_width="335dp"
         android:layout_height="235dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greetings"
@@ -56,18 +56,17 @@
     <LinearLayout
         android:id="@+id/card_admin"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="29dp"
         android:layout_height="107dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginHorizontal="29dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_shape2"
         android:elevation="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gambar"
         android:orientation="horizontal"
         android:paddingHorizontal="35dp"
         android:paddingVertical="20dp"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gambar">
 
         <ImageView
             android:layout_width="30dp"
@@ -77,49 +76,46 @@
             android:src="@drawable/admin_alt"
 
             />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsbold"
                 android:text="Admin"
                 android:textColor="@color/white"
-                android:fontFamily="@font/poppinsbold"
-                android:textSize="24dp"
-                />
+                android:textSize="24dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Masuk sebagai admin"
                 android:fontFamily="@font/poppinsregular"
+                android:text="Masuk sebagai admin"
                 android:textColor="@color/white"
-                android:textSize="14dp"
-                />
+                android:textSize="14dp" />
         </LinearLayout>
 
 
     </LinearLayout>
 
-
-    <!-- Card Customer -->
     <LinearLayout
         android:id="@+id/card_kasir"
         android:layout_width="match_parent"
-        android:layout_marginHorizontal="29dp"
         android:layout_height="107dp"
+        android:layout_marginHorizontal="29dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/button_shape2"
         android:elevation="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_admin"
         android:orientation="horizontal"
         android:paddingHorizontal="35dp"
         android:paddingVertical="20dp"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_admin">
 
         <ImageView
             android:layout_width="30dp"
@@ -133,8 +129,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -152,6 +147,45 @@
                 android:textColor="@color/white"
                 android:textSize="14dp" />
         </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!-- Card Customer -->
+
+    <LinearLayout
+        android:id="@+id/card_logout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginHorizontal="29dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_shape_red"
+        android:elevation="1dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="35dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.614"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_kasir">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_logout"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Logout"
+            android:textColor="@color/white"
+            android:textSize="24dp" />
 
 
     </LinearLayout>

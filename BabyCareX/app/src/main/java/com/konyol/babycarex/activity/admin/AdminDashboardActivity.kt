@@ -25,18 +25,25 @@ class AdminDashboardActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
         }
+
+        binding.btnSemuaPinjaman.setOnClickListener {
+            startActivity(Intent(this, SemuaPinjamanActivity::class.java))
+        }
+
         binding.btnSemuaBarang.setOnClickListener {
             startActivity(Intent(this, SemuaBarangActivity::class.java))
         }
         binding.btnTmbhBarang.setOnClickListener {
             startActivity(Intent(this, TambahBarangActivity::class.java))
         }
+
         binding.btnSemuaKategori.setOnClickListener {
             startActivity(Intent(this, SemuaKategoriActivity::class.java))
         }
         binding.btnTmbhKategori.setOnClickListener {
             startActivity(Intent(this, TambahKategoriActivity::class.java))
         }
+
         binding.btnSemuaPelanggan.setOnClickListener {
             startActivity(Intent(this, SemuaPelangganActivity::class.java))
         }

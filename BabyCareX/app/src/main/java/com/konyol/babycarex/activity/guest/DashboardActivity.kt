@@ -6,12 +6,22 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.konyol.babycarex.activity.admin.AdminDashboardActivity
 import com.konyol.babycarex.databinding.ActivityDashboardBinding
 import com.konyol.babycarex.activity.kasir.KasirHomeActivity
+import com.konyol.babycarex.data.network.AuthApiService
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DashboardActivity : AppCompatActivity() {
+    @Inject
+    lateinit var authApiService: AuthApiService
     private lateinit var binding: ActivityDashboardBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,6 +38,13 @@ class DashboardActivity : AppCompatActivity() {
         binding.cardKasir.setOnClickListener {
             val intent = Intent(this, KasirHomeActivity::class.java)
             startActivity(intent)
+        }
+        binding.cardLogout.setOnClickListener {
+            lifecycleScope.launch {
+                authApiService.logout()
+            }
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 }

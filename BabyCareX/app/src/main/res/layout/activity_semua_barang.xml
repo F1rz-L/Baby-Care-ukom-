@@ -70,5 +70,6 @@
         android:layout_margin="24dp"
         android:background="@drawable/button_shape_circle2"
         android:contentDescription="Tambah Barang"
+        app:tint="@color/white"
         android:src="@drawable/ic_add" />
 </RelativeLayout>

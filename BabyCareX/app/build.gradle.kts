@@ -86,4 +86,9 @@ dependencies {
 
     // Picasso
     implementation("com.squareup.picasso:picasso:2.8")
+
+    implementation ("com.github.hkk595:Resizer:v1.5")
+    implementation ("com.airbnb.android:lottie:5.2.0")
+    implementation("com.github.mukeshsolanki.android-otpview-pinview:otpview:3.1.0")
+    implementation("androidx.security:security-crypto:1.1.0-alpha03")
 }

@@ -1,0 +1,184 @@
+package com.itbrain.laundry.config
+
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import com.itbrain.laundry.data.LaundryDatabase
+import com.itbrain.laundry.data.model.Outlet
+import com.itbrain.laundry.data.model.User
+import com.itbrain.laundry.helper.DateHelper
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class LocalDataManager @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
+    companion object {
+        private const val PREFS_NAME = "laundry_prefs"
+        private const val CACHEPREFS_NAME = "cache_api"
+        private const val KEY_TOKEN = "api_token"
+    }
+
+    private val sharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
+    private val cacheSharedPreferences: SharedPreferences by lazy {
+        context.getSharedPreferences(CACHEPREFS_NAME, Context.MODE_PRIVATE)
+    }
+
+    fun setString(key: String, value: String?) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
+    fun getString(key: String, defaultValue: String? = null): String? {
+        return sharedPreferences.getString(key, defaultValue)
+    }
+
+    fun setFloat(key: String, value: Float) {
+        sharedPreferences.edit().putFloat(key, value).apply()
+    }
+
+    fun getLastSync(url:String): String {
+        return cacheSharedPreferences.getString(url, "") ?: ""
+    }
+
+    fun setLastSync(url:String,) {
+        cacheSharedPreferences.edit().putString(url, DateHelper.getCurrentDate("yyyyMMddHHmmss")).apply()
+    }
+
+    fun clearLastSync() {
+        cacheSharedPreferences.edit().clear().apply()
+    }
+
+
+    fun setToken(token: String) {
+        setString(KEY_TOKEN, token)
+    }
+
+    fun getToken(): String? {
+        return getString(KEY_TOKEN)
+    }
+
+    fun setCurrentOutlet(outletId: Long) {
+        setString("current_outlet", outletId.toString())
+    }
+
+    fun getCurrentOutlet(): Long {
+        return getString("current_outlet")?.toLongOrNull() ?: 0L
+    }
+
+    fun isOutletSelected(): Boolean {
+        return getCurrentOutlet() != 0L
+    }
+
+    fun clearToken() {
+        sharedPreferences.edit().clear().apply()
+        setUserShowIntro()
+    }
+
+    fun isTodayLoader(): Boolean {
+        Log.d("LastLoader",sharedPreferences.getString("last_loader", "") +","+ DateHelper.getCurrentDate("yyyyMMdd"))
+        return sharedPreferences.getString("last_loader", "") == DateHelper.getCurrentDate("yyyyMMdd")
+    }
+
+    fun isRoomVersionUpdated(): Boolean {
+        val currentVersion = LaundryDatabase.getDatabase(context).openHelper.writableDatabase.version
+        val previousVersion = sharedPreferences.getInt("room_version", 0)
+        sharedPreferences.edit().putInt("room_version", currentVersion).apply()
+        return currentVersion != previousVersion
+    }
+
+    fun setCurrentLoader() {
+        sharedPreferences.edit().putString("last_loader", DateHelper.getCurrentDate("yyyyMMdd")).apply()
+    }
+
+    fun setAccountInfo(user: User) {
+        setString("user_id", user.id.toString())
+        setString("super_user_id", user.superUserId.toString())
+        setString("outlet_id", user.outletId.toString())
+        setString("nama", user.nama)
+        setString("email", user.email)
+        setString("role", user.role)
+        setString("email_verified_at", user.emailVerifiedAt.toString())
+        setString("remember_token", user.rememberToken.toString())
+        setString("user_created_at", user.createdAt.toString())
+        setString("user_updated_at", user.updatedAt.toString())
+    }
+
+    fun isReviewer(): Boolean {
+        return getAccountInfo().email == "reviewer@itbrain.com" && getAccountInfo().superUserId == 1L
+    }
+
+    fun isUserAdmin(): Boolean {
+        return getAccountInfo().role == "super_user"
+    }
+
+    fun isUserKasir(): Boolean {
+        return getAccountInfo().role == "kasir"
+    }
+
+    fun isManager(): Boolean {
+        return getAccountInfo().role == "manajer"
+    }
+
+    fun setDefaultOutlet(outlet: Outlet) {
+        setString("outlet-super_user_id", outlet.superUserId.toString())
+        setString("outlet-outlet_id", outlet.id.toString())
+        setString("outlet-nama", outlet.nama)
+        setString("outlet-alamat", outlet.alamat)
+        setString("outlet-caption", outlet.caption)
+        setString("outlet-nomorTelepon", outlet.nomorTelepon)
+        setString("outlet-created_at", outlet.createdAt.toString())
+        setString("outlet-updated_at", outlet.updatedAt.toString())
+    }
+    fun getDefaultOutlet():Outlet {
+        return Outlet(
+            superUserId = getString("outlet-super_user_id")?.toLongOrNull() ?: 0L,
+            id = getString("outlet-outlet_id")?.toLongOrNull() ?: 0L,
+            nama = getString("outlet-nama") ?: "",
+            alamat = getString("outlet-alamat") ?: "",
+            caption = getString("outlet-caption") ?: "",
+            nomorTelepon = getString("outlet-nomorTelepon") ?: "",
+            createdAt = getString("outlet-created_at")?.toLongOrNull() ?: 0L,
+            updatedAt = getString("outlet-updated_at")?.toLongOrNull() ?: 0L
+        )
+    }
+
+    fun isUserVerifying(): Boolean {
+        return sharedPreferences.getBoolean("verifying", false)
+    }
+
+    fun setUserVerifying(state: Boolean) {
+        sharedPreferences.edit().putBoolean("verifying", state).apply()
+    }
+
+    fun isUserLoggedIn(): Boolean {
+        return getToken() != null && getAccountInfo().id != 0L
+    }
+
+    fun isUserShowIntro(): Boolean {
+        return sharedPreferences.getBoolean("show_intro", false)
+    }
+
+    fun setUserShowIntro() {
+        sharedPreferences.edit().putBoolean("show_intro", true).apply()
+    }
+
+    fun getAccountInfo():User {
+        Log.d("User",getString("nama") ?: "Kosong")
+        return User(
+            id = getString("user_id")?.toLongOrNull() ?: 0,
+            superUserId = getString("super_user_id")?.toLongOrNull() ?: 0L,
+            outletId = getString("outlet_id")?.toLongOrNull() ?: 0L,
+            nama = getString("nama") ?: "",
+            email = getString("email") ?: "",
+            role = getString("role") ?: "",
+            emailVerifiedAt = getString("email_verified_at")?.toLongOrNull() ?: 0L,
+            rememberToken = getString("remember_token") ?: "",
+            createdAt = getString("created_at")?.toLongOrNull() ?: 0L,
+            updatedAt = getString("updated_at")?.toLongOrNull() ?: 0L
+        )
+    }
+}

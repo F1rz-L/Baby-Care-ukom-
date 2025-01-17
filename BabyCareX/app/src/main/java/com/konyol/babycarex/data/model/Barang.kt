@@ -9,5 +9,7 @@ data class Barang(
     val deskripsi: String,
     val harga: Int,
     val gambar: String? = null,
-    val status: String
+    val status: String = "Tersedia",
+    val created_at: String? = null,
+    val updated_at: String? = null
 )

@@ -7,4 +7,6 @@ data class Pelanggan(
     val alamat: String,
     val nomor_telepon: String,
     val nik: String,
+    val created_at: String? = null,
+    val updated_at: String? = null
 )
