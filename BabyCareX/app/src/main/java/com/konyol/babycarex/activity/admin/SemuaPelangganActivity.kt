@@ -56,7 +56,10 @@ class SemuaPelangganActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         pelangganAdapter = PelangganAdapter(pelangganList,
             onEditClick = { pelanggan ->
-                Toast.makeText(this, "Edit: ${pelanggan.nama}", Toast.LENGTH_SHORT).show()
+                Intent(this, TambahPelangganActivity::class.java).also { intent ->
+                    intent.putExtra("pelangganId", pelanggan.id)
+                    startActivity(intent)
+                }
             },
             onDeleteClick = { pelanggan ->
                 deletePelanggan(pelanggan) // Handle the delete action

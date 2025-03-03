@@ -27,8 +27,10 @@ import javax.inject.Inject
 class SemuaPinjamanActivity : AppCompatActivity() {
     @Inject
     lateinit var pinjamanApiService: PinjamanApiService
+
     @Inject
     lateinit var barangApiService: BarangApiService
+
     @Inject
     lateinit var pelangganApiService: PelangganApiService
     private val pinjamanList = mutableListOf<Pinjaman>()
@@ -58,7 +60,12 @@ class SemuaPinjamanActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         pinjamanAdapter = PinjamanAdapter(
             pinjamanList, barangApiService, pelangganApiService, lifecycleOwner = this,
-            onReturnClick = { pinjamanId -> kembali(pinjamanId) }
+            onReturnClick = { pinjamanId -> kembali(pinjamanId) },
+            onStrukClick = { pinjamanId ->
+                Intent(this, StrukActivity::class.java).apply {
+                    putExtra("pinjamanId", pinjamanId)
+                }.let { startActivity(it) }
+            }
         )
         binding.rvSemuaPinjaman.apply {
             layoutManager = LinearLayoutManager(this@SemuaPinjamanActivity)
@@ -98,7 +105,11 @@ class SemuaPinjamanActivity : AppCompatActivity() {
                 Log.d("KembaliPinjaman", "Pinjaman ID: $pinjamanId")
                 val response = pinjamanApiService.kembali(pinjamanId)
                 if (response.isSuccessful) {
-                    Toast.makeText(this@SemuaPinjamanActivity, "Kembalikan pinjaman berhasil!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@SemuaPinjamanActivity,
+                        "Kembalikan pinjaman berhasil!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     fetchPinjaman()
                 } else {
                     Log.e("KembaliPinjaman", "Error: ${response.errorBody()?.string()}")

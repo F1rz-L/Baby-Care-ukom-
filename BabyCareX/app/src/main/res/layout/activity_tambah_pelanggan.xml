@@ -50,6 +50,7 @@
 
 
                 <TextView
+                    android:id="@+id/tvDisplayPelanggan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppinsbold"
@@ -169,7 +170,7 @@
                         app:boxStrokeWidthFocused="3dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etNIK"
+                            android:id="@+id/etNoTelp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinsregular"
@@ -178,6 +179,7 @@
                             android:maxLines="1"
                             android:paddingHorizontal="20dp"
                             android:paddingTop="10dp" />
+
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -210,7 +212,7 @@
                         app:boxStrokeWidthFocused="3dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etNoTelp"
+                            android:id="@+id/etNIK"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppinsregular"

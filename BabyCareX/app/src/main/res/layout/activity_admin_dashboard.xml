@@ -70,6 +70,7 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tvSemuaBarang"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:fontFamily="@font/poppinsbold"
@@ -99,6 +100,7 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tvDipinjam"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:fontFamily="@font/poppinsbold"
@@ -129,6 +131,7 @@
                     android:paddingBottom="10dp">
 
                     <TextView
+                        android:id="@+id/tvTotalPinjaman"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:fontFamily="@font/poppinsbold"

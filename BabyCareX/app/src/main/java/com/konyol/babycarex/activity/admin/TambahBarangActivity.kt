@@ -1,34 +1,61 @@
 package com.konyol.babycarex.activity.admin
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.konyol.babycarex.R
+import com.konyol.babycarex.data.MessageHelper
 import com.konyol.babycarex.data.model.Barang
 import com.konyol.babycarex.data.model.Pelanggan
 import com.konyol.babycarex.data.network.BarangApiService
 import com.konyol.babycarex.data.network.KategoriApiService
 import com.konyol.babycarex.data.network.PelangganApiService
+import com.konyol.babycarex.data.response.APIResponse
 import com.konyol.babycarex.databinding.ActivityTambahBarangBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class TambahBarangActivity : AppCompatActivity() {
     @Inject
     lateinit var barangApiService: BarangApiService
+
     @Inject
     lateinit var kategoriApiService: KategoriApiService
 
     private val kategoriMap = mutableMapOf<String, Int>() // Maps category names to IDs
     private lateinit var binding: ActivityTambahBarangBinding
+
+    private var oldBitmap: Bitmap? = null
+    private var newBitmap: Bitmap? = null
+
+    private val CAMERA_PERMISSION_REQUEST_CODE = 100
+    private val IMAGE_PICK_CODE = 1
+    private val CAMERA_CAPTURE_CODE = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +75,12 @@ class TambahBarangActivity : AppCompatActivity() {
         // Handle "Add Barang" button click
         binding.btnTmbhBarang.setOnClickListener {
             validateAndAddBarang()
+        }
+        binding.takeImage.setOnClickListener {
+            checkCameraPermission()
+        }
+        binding.uploadImage.setOnClickListener {
+            openGallery()
         }
     }
 
@@ -91,7 +124,8 @@ class TambahBarangActivity : AppCompatActivity() {
         val deskripsi = binding.edtDeskripsi.text.toString().trim()
 
         if (nama.isBlank() || harga == null || harga <= 0 || merk.isBlank() ||
-            kategoriName.isBlank() || deskripsi.isBlank()) {
+            kategoriName.isBlank() || deskripsi.isBlank()
+        ) {
             Toast.makeText(this, "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
             return
         }
@@ -126,8 +160,9 @@ class TambahBarangActivity : AppCompatActivity() {
                         "Successfully added new item!",
                         Toast.LENGTH_SHORT
                     ).show()
+                    uploadImage(response.body()?.data?.id!!, newBitmap!!) { finish() }
                     clearInputFields()
-                    finish()
+//                    finish()
                 } else {
                     handleError("Failed to add item: ${response.message()}")
                 }
@@ -154,5 +189,97 @@ class TambahBarangActivity : AppCompatActivity() {
     private fun handleError(message: String) {
         Log.e("TambahBarangActivity", message)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this@TambahBarangActivity, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+        } else {
+            openCamera()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                MessageHelper.errorResult(binding.root, "Izin kamera diperlukan")
+            }
+        }
+    }
+
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA_CAPTURE_CODE)
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    private fun uploadImage(barangId: Int, bitmap: Bitmap, onSuccess: (Barang) -> Unit) {
+        lifecycleScope.launch {
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            val byteArray = stream.toByteArray()
+            val requestBody = byteArray.toRequestBody("image/*".toMediaTypeOrNull())
+            val multipartBody = MultipartBody.Part.createFormData("gambar", "image.jpg", requestBody)
+
+            val response = barangApiService.uploadBarangImage(
+                id = barangId,
+                image = multipartBody
+            )
+            if (response.isSuccessful) {
+                response.body()?.let { onSuccess(it.data) }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                CAMERA_CAPTURE_CODE -> {
+                    val bitmap = data?.extras?.get("data") as? Bitmap
+                    bitmap?.let {
+                        newBitmap = bitmap
+                        binding.barangPreview.setImageDrawable(
+                            BitmapDrawable(
+                                binding.root.resources,
+                                bitmap
+                            )
+                        )
+                    }
+                }
+
+                IMAGE_PICK_CODE -> {
+                    data?.data?.let { uri ->
+                        val inputStream =
+                            this@TambahBarangActivity.contentResolver.openInputStream(uri)
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        newBitmap = bitmap
+                        binding.barangPreview.setImageDrawable(
+                            BitmapDrawable(
+                                binding.root.resources,
+                                bitmap
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 }

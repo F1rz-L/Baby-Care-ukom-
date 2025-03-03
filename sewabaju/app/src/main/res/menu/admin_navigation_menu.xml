@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/admin_navigation_transaksi"
+        android:icon="@drawable/baseline_account_balance_wallet_24"
+        android:title="Transaksi"/>
+    <item
+        android:id="@+id/admin_navigation_master"
+        android:icon="@drawable/baseline_dashboard_24"
+        android:title="Master"/>
+    <item
+        android:id="@+id/admin_navigation_laporan"
+        android:icon="@drawable/baseline_bar_chart_24"
+        android:title="Laporan"/>
+</menu>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    
+    <data>
+        <variable
+            name="quantity"
+            type="String" />
+        <variable
+            name="startDate"
+            type="String" />
+        <variable
+            name="endDate"
+            type="String" />
+        <variable
+            name="total"
+            type="String" />
+        <variable
+            name="status"
+            type="String" />
+    </data>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text='@{quantity+" set kostum telah dipesan"}'
+                tools:text="10 set kostum telah dipesan"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text='@{"Untuk:   "+startDate}'
+                tools:text="Untuk:   24 Desember 2024"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text='@{"Hingga: "+endDate}'
+                tools:text="Hingga: 25 Desember 2024"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text='@{"Rp. "+total}'
+                tools:text="Rp. 200000"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{status}"
+                tools:text="Status"
+                android:textSize="25sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

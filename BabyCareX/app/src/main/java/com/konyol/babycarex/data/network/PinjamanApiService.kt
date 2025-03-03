@@ -26,4 +26,9 @@ interface PinjamanApiService {
     suspend fun kembali(
         @Path("id") id: Int
     ): Response<APIResponse<Pinjaman>>
+
+    @GET("pinjaman/{id}")
+    suspend fun getPinjamanById(
+        @Path("id") id: Int
+    ): Response<APIResponse<Pinjaman>>
 }

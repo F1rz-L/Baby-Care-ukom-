@@ -28,7 +28,8 @@ class PinjamanAdapter(
     private val barangApiService: BarangApiService,
     private val pelangganApiService: PelangganApiService,
     private val lifecycleOwner: LifecycleOwner, // Pass the LifecycleOwner explicitly
-    private val onReturnClick: (Int) -> Unit
+    private val onReturnClick: (Int) -> Unit,
+    private val onStrukClick: (Int) -> Unit
 ) : RecyclerView.Adapter<PinjamanAdapter.PinjamanViewHolder>() {
     inner class PinjamanViewHolder(val binding: ListPinjamanAdapterBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -58,11 +59,11 @@ class PinjamanAdapter(
             when (pinjaman.status) {
                 "Dipinjam" -> {
                     btnReturn.visibility = View.VISIBLE
-                    imgTick.visibility = View.GONE
+                    CompleteGroup.visibility = View.GONE
                 }
                 "Dikembalikan" -> {
                     btnReturn.visibility = View.GONE
-                    imgTick.visibility = View.VISIBLE
+                    CompleteGroup.visibility = View.VISIBLE
                 }
             }
 
@@ -72,6 +73,16 @@ class PinjamanAdapter(
                     .setMessage("Are you sure you want to return this item?")
                     .setPositiveButton("Yes") { _, _ ->
                         onReturnClick(pinjaman.id!!.toInt())
+                    }
+                    .setNegativeButton("No", null)
+                builder.show()
+            }
+            btnStruk.setOnClickListener {
+                val context = holder.itemView.context
+                val builder = AlertDialog.Builder(context)
+                    .setMessage("Are you sure you want to print this item?")
+                    .setPositiveButton("Yes") { _, _ ->
+                        onStrukClick(pinjaman.id!!.toInt())
                     }
                     .setNegativeButton("No", null)
                 builder.show()

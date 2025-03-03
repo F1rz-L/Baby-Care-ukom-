@@ -31,7 +31,6 @@ class PinjamanController extends Controller
         if (!Barang::where('id', $request->id_barang)->where('status', '!=', 'Dipinjam')->exists()) {
             return new ResponseResource(404, 'Data barang tidak ditemukan atau tidak tersedia');
         }
-
         DB::beginTransaction();
 
         try {
@@ -87,7 +86,7 @@ class PinjamanController extends Controller
 
             if ($tglSekarang->greaterThan($tglKembali)) {
                 $hariTerlambat = $tglSekarang->diffInDays($tglKembali);
-                $denda = $hariTerlambat * 5000; // Example penalty: 5000 per day
+                $denda = $hariTerlambat * 5000; 
             }
 
             // Update the pinjaman record
@@ -125,9 +124,15 @@ class PinjamanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pinjaman $pinjaman)
+    public function show($id)
     {
-        //
+        $pinjaman = Pinjaman::find($id);
+
+        if (!$pinjaman) {
+            return new ResponseResource(404, 'Pinjaman not found');
+        }
+
+        return new ResponseResource(200, "Show Data Pinjaman", $pinjaman);
     }
 
     /**

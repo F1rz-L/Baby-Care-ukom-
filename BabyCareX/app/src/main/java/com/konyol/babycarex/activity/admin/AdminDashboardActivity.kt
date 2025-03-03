@@ -6,12 +6,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.konyol.babycarex.activity.guest.DashboardActivity
 import com.konyol.babycarex.R
+import com.konyol.babycarex.data.network.BarangApiService
 import com.konyol.babycarex.databinding.ActivityAdminDashboardBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AdminDashboardActivity : AppCompatActivity() {
+    @Inject lateinit var barangApiService: BarangApiService
     private lateinit var binding: ActivityAdminDashboardBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,6 +30,20 @@ class AdminDashboardActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        lifecycleScope.launch {
+            val barangCount = barangApiService.statsTotalBarang()
+            val barangDipinjam = barangApiService.statsBarangDipinjam()
+            val totalPinjaman = barangApiService.statsTotalPinjaman()
+            binding.tvSemuaBarang.text = barangCount.body().toString()
+            binding.tvDipinjam.text = barangDipinjam.body().toString()
+            binding.tvTotalPinjaman.text = totalPinjaman.body().toString()
+        }
+
+        handleEvent()
+    }
+
+    private fun handleEvent() {
         binding.btnBack.setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
         }

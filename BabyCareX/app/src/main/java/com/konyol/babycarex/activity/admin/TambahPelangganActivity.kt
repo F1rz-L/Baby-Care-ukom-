@@ -23,6 +23,8 @@ class TambahPelangganActivity : AppCompatActivity() {
     lateinit var pelangganApiService: PelangganApiService
     private lateinit var binding: ActivityTambahPelangganBinding
 
+    private val pelangganId by lazy { intent.getIntExtra("pelangganId", 0) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,6 +32,24 @@ class TambahPelangganActivity : AppCompatActivity() {
         binding = ActivityTambahPelangganBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (pelangganId != 0) {
+            lifecycleScope.launch {
+                try {
+                    val response = pelangganApiService.getPelangganById(pelangganId)
+                    if (response.isSuccessful) {
+                        val pelanggan = response.body()!!.data
+                        binding.etNamaPelanggan.setText(pelanggan.nama)
+                        binding.etAlamatPelanggan.setText(pelanggan.alamat)
+                        binding.etNoTelp.setText(pelanggan.nomor_telepon)
+                        binding.etNIK.setText(pelanggan.nik)
+                        binding.btnTmbhPelanggan.text = "Edit Pelanggan"
+                        binding.tvDisplayPelanggan.text = "Edit Pelanggan"
+                    }
+                } catch (e: Exception) {
+                    Log.e("Error", "Failed to fetch pelanggan: ${e.message}")
+                }
+            }
+        }
 
         // Create a new "pelanggan"
         binding.btnTmbhPelanggan.setOnClickListener {
@@ -39,13 +59,17 @@ class TambahPelangganActivity : AppCompatActivity() {
             val nikText = binding.etNIK.text.toString()
 
             if (namaText.isNotBlank() && alamatText.isNotBlank() && noTelpText.isNotBlank() && nikText.isNotBlank()) {
-                val newPelanggan = Pelanggan(
+                val pelangganData = Pelanggan(
                     nama = namaText,
                     alamat = alamatText,
                     nomor_telepon = noTelpText,
                     nik = nikText
                 )
-                addPelanggan(newPelanggan)
+                if (pelangganId != 0) {
+                    updatePelanggan(pelangganData)
+                } else {
+                    addPelanggan(pelangganData)
+                }
             } else {
                 Toast.makeText(this, "Pelanggan cannot be empty", Toast.LENGTH_SHORT).show()
             }
@@ -66,7 +90,11 @@ class TambahPelangganActivity : AppCompatActivity() {
                     val addedPelanggan = response.body()
                     Log.d("TAG", "Pelanggan added: $addedPelanggan")
                     // Handle the success, e.g., update UI or notify user
-                    Toast.makeText(this@TambahPelangganActivity, "Berhasil menambahkan pelanggan baru!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@TambahPelangganActivity,
+                        "Berhasil menambahkan pelanggan baru!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.etNamaPelanggan.setText("")
                     binding.etAlamatPelanggan.setText("")
                     binding.etNoTelp.setText("")
@@ -74,11 +102,52 @@ class TambahPelangganActivity : AppCompatActivity() {
                     finish()
                 } else {
                     // Handle the error
-                    Toast.makeText(this@TambahPelangganActivity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@TambahPelangganActivity,
+                        "Error: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@TambahPelangganActivity,"Exception: ${e.message}",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@TambahPelangganActivity,
+                    "Exception: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun updatePelanggan(pelanggan: Pelanggan) {
+        lifecycleScope.launch {
+            try {
+                val response = pelangganApiService.updatePelanggan(pelangganId, pelanggan)
+                if (response.isSuccessful) {
+                    val updatedPelanggan = response.body()
+                    Log.d("TAG", "Pelanggan updated: $updatedPelanggan")
+                    // Handle the success, e.g., update UI or notify user
+                    Toast.makeText(
+                        this@TambahPelangganActivity,
+                        "Berhasil memperbarui pelanggan!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                } else {
+                    // Handle the error
+                    Toast.makeText(
+                        this@TambahPelangganActivity,
+                        "Error: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(
+                    this@TambahPelangganActivity,
+                    "Exception: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

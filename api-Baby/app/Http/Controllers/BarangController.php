@@ -129,18 +129,47 @@ class BarangController extends Controller
         return new ResponseResource(200, "Data Barang Berhasil Diubah", $barang);
     }
 
-
-
-
     public function destroy($id)
     {
         $barang = Barang::find($id);
 
         if (!$barang) {
             return new ResponseResource(404, 'Data Barang Tidak Ditemukan!');
+        } else if ($barang->status == 'Dipinjam') {
+            return new ResponseResource(400, 'Barang Sedang Dipinjam! Coba lagi setelah barang dikembalikan.');
         } else {
             $barang->delete();
             return new ResponseResource(200, 'Data Barang Berhasil Dihapus', $barang);
         }
+    }
+
+    public function uploadImage(Request $request, $id)
+    {
+        // Find the Barang record
+        $barang = Barang::find($id);
+        if (!$barang) {
+            return new ResponseResource(404, 'Data Barang Tidak Ditemukan!');
+        }
+
+        // Process uploaded file (if exists)
+        $path = $barang->gambar; // Default to the current image
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $path = $file->store('uploads/gambar', 'public'); // Save to storage/app/public/uploads/gambar
+
+            // Optionally delete the old image if it exists
+            if (!empty($barang->gambar) && Storage::disk('public')->exists($barang->gambar)) {
+                Storage::disk('public')->delete($barang->gambar);
+            }
+        }
+
+        // Prepare data for update
+        $data = $request->only(['namabarang', 'id_kategori', 'id_peminjam', 'deskripsi', 'harga', 'merk', 'status']);
+        $data['gambar'] = $path;
+
+        // Update the record
+        $barang->update($data);
+
+        return new ResponseResource(200, "Gambar Berhasil Diupload", $barang);
     }
 }

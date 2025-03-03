@@ -95,6 +95,11 @@ class PelangganController extends Controller
                 return new ResponseResource(404, 'Pelanggan not found');
             }
 
+            // Check if the Pelanggan has associated peminjaman
+            if ($pelanggan->id_peminjaman !== null) {
+                return new ResponseResource(400, 'Pelanggan has associated peminjaman and cannot be deleted');
+            }
+
             // Store the pelanggan data before deletion for response
             $deletedData = $pelanggan->toArray();
 
