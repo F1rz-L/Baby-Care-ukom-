@@ -46,6 +46,7 @@ class SemuaKategoriActivity : AppCompatActivity() {
         binding.btnTambahKategori.setOnClickListener {
             startActivity(Intent(this, TambahKategoriActivity::class.java))
         }
+        binding.back2.setOnClickListener { finish() }
     }
 
     override fun onResume() {
@@ -56,7 +57,9 @@ class SemuaKategoriActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         kategoriAdapter = KategoriAdapter(kategoriList,
             onEditClick = { kategori ->
-                Toast.makeText(this, "Edit: ${kategori.kategori}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, TambahKategoriActivity::class.java)
+                intent.putExtra("kategoriId", kategori.id)
+                startActivity(intent)
             },
             onDeleteClick = { kategori ->
                 deleteKategori(kategori) // Handle the delete action

@@ -46,6 +46,7 @@ class SemuaPelangganActivity : AppCompatActivity() {
         binding.btnTambahPelanggan.setOnClickListener {
             startActivity(Intent(this, TambahPelangganActivity::class.java))
         }
+        binding.back2.setOnClickListener { finish() }
     }
 
     override fun onResume() {

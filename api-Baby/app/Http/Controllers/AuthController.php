@@ -24,13 +24,13 @@ class AuthController extends Controller
             'nomor_telepon' => 'required|string|unique:users',
             'alamat' => 'required|string',
             'nik' => 'required|string|unique:users',
-            'password' => 'required|string|min:6',
-            // 'password' => [
-            //     'required',
-            //     'string',
-            //     'min:6',
-            //     'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/',
-            // ],
+            // 'password' => 'required|string|min:6',
+            'password' => [
+                'required',
+                'string',
+                'min:6',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/',
+            ],
 
         ]);
 
@@ -212,8 +212,14 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'otp' => 'required|size:6|regex:/^[0-9]+$/',
-            'password' => 'required|string|min:6',
-            'password_confirmation' => 'required|string',
+            // 'password' => 'required|string|min:6',
+            // 'password_confirmation' => 'required|string',
+            'password', 'password_confirmation' => [
+                'required',
+                'string',
+                'min:6',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/',
+            ],
         ]);
 
         if ($validator->fails()) {

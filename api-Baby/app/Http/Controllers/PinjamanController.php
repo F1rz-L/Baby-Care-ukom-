@@ -87,11 +87,14 @@ class PinjamanController extends Controller
             if ($tglSekarang->greaterThan($tglKembali)) {
                 $hariTerlambat = $tglSekarang->diffInDays($tglKembali);
                 $denda = $hariTerlambat * 5000; 
+            } else {
+                $pinjaman->update([
+                    'tgl_kembali' => $tglSekarang,
+                ]);
             }
 
             // Update the pinjaman record
             $pinjaman->update([
-                'tgl_kembali' => $tglSekarang,
                 'status' => 'Dikembalikan',
                 'denda' => $denda,
             ]);

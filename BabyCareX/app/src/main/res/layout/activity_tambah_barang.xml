@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="100dp"
         android:layout_alignParentBottom="true"
         android:paddingVertical="40dp"
         android:paddingHorizontal="20dp"
@@ -48,10 +48,11 @@
             android:clipToPadding="false">
 
             <TextView
+                android:id="@+id/tvDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsbold"
-                android:text="Menambah Barang Baru"
+                android:text="Tambah Barang"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="20sp" />

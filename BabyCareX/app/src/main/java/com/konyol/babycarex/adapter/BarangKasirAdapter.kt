@@ -40,10 +40,10 @@ class BarangKasirAdapter(
 
         // Access views directly through binding
         holder.binding.apply {
-            nama.text = item?.namabarang
-            tvMerk.text = item?.merk
-            tvKategori.text = item?.id_kategori.toString()
-            harga.text = item?.harga.toString()
+            nama.text = item.namabarang
+            tvMerk.text = item.merk
+            tvKategori.text = item.id_kategori.toString()
+            harga.text = "Rp" + item?.harga.toString()
 
             if (item?.gambar !== null) {
                 val imgUrl = NetworkModule.BASE_IMG_URL + item?.gambar

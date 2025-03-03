@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.konyol.babycarex.R
 import com.konyol.babycarex.data.MessageHelper
+import com.konyol.babycarex.data.di.NetworkModule
 import com.konyol.babycarex.data.model.Barang
 import com.konyol.babycarex.data.model.Pelanggan
 import com.konyol.babycarex.data.network.BarangApiService
@@ -28,6 +29,7 @@ import com.konyol.babycarex.data.network.KategoriApiService
 import com.konyol.babycarex.data.network.PelangganApiService
 import com.konyol.babycarex.data.response.APIResponse
 import com.konyol.babycarex.databinding.ActivityTambahBarangBinding
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -49,6 +51,7 @@ class TambahBarangActivity : AppCompatActivity() {
 
     private val kategoriMap = mutableMapOf<String, Int>() // Maps category names to IDs
     private lateinit var binding: ActivityTambahBarangBinding
+    private val barangId by lazy { intent.getIntExtra("barangId", 0) }
 
     private var oldBitmap: Bitmap? = null
     private var newBitmap: Bitmap? = null
@@ -69,12 +72,38 @@ class TambahBarangActivity : AppCompatActivity() {
             insets
         }
 
+        if (barangId != 0) {
+            lifecycleScope.launch {
+                try {
+                    val response = barangApiService.getBarangById(barangId)
+                    if (response.isSuccessful) {
+                        val barang = response.body()!!.data
+                        binding.edtNamaBarang.setText(barang.namabarang)
+                        binding.edtMerk.setText(barang.merk)
+//                        binding.edtKategori.setText(barang.id_kategori.toString())
+                        binding.edtHarga.setText(barang.harga.toString())
+                        binding.edtDeskripsi.setText(barang.deskripsi)
+                        binding.btnTmbhBarang.text = "Edit Barang"
+                        binding.tvDisplay.text = "Edit Barang"
+
+                        if (barang.gambar !== null) {
+                            val imgUrl = NetworkModule.BASE_IMG_URL + barang?.gambar
+                            Picasso.get().load(imgUrl).into(binding.barangPreview)
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("Error", "Failed to fetch barang: ${e.message}")
+                }
+            }
+        }
+
         // Fetch and populate dropdown
         fetchKategoriList()
-
-        // Handle "Add Barang" button click
         binding.btnTmbhBarang.setOnClickListener {
             validateAndAddBarang()
+        }
+        binding.btnBack.setOnClickListener {
+            finish()
         }
         binding.takeImage.setOnClickListener {
             checkCameraPermission()
@@ -123,9 +152,7 @@ class TambahBarangActivity : AppCompatActivity() {
         val kategoriName = binding.edtKategori.text.toString().trim()
         val deskripsi = binding.edtDeskripsi.text.toString().trim()
 
-        if (nama.isBlank() || harga == null || harga <= 0 || merk.isBlank() ||
-            kategoriName.isBlank() || deskripsi.isBlank()
-        ) {
+        if (nama.isBlank() || harga == null || harga <= 0 || merk.isBlank() || kategoriName.isBlank() || deskripsi.isBlank()) {
             Toast.makeText(this, "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
             return
         }
@@ -141,10 +168,14 @@ class TambahBarangActivity : AppCompatActivity() {
             harga = harga,
             merk = merk,
             id_kategori = kategoriId,
-            deskripsi = deskripsi
+            deskripsi = deskripsi,
         )
 
-        addBarang(newBarang)
+        if (barangId != 0) {
+            updateBarang(newBarang, barangId)
+        } else {
+            addBarang(newBarang)
+        }
     }
 
     /**
@@ -155,14 +186,33 @@ class TambahBarangActivity : AppCompatActivity() {
             try {
                 val response = barangApiService.addBarang(barang)
                 if (response.isSuccessful) {
-                    Toast.makeText(
-                        this@TambahBarangActivity,
-                        "Successfully added new item!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    uploadImage(response.body()?.data?.id!!, newBitmap!!) { finish() }
+                    Toast.makeText(this@TambahBarangActivity,"Successfully added new item!",Toast.LENGTH_SHORT).show()
                     clearInputFields()
-//                    finish()
+                    if ( newBitmap !== null ) {
+                        uploadImage(response.body()?.data?.id!!, newBitmap!!) { finish() }
+                    } else {
+                        finish()
+                    }
+                } else {
+                    handleError("Failed to add item: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                handleError("An error occurred: ${e.message}")
+            }
+        }
+    }
+    private fun updateBarang(barang: Barang, barangId: Int) {
+        lifecycleScope.launch {
+            try {
+                val response = barangApiService.updateBarang(barangId, barang)
+                if (response.isSuccessful) {
+                    Toast.makeText(this@TambahBarangActivity,"Successfully added new item!",Toast.LENGTH_SHORT).show()
+                    clearInputFields()
+                    if ( newBitmap !== null) {
+                        uploadImage(response.body()?.data?.id!!, newBitmap!!) { finish() }
+                    } else {
+                        finish()
+                    }
                 } else {
                     handleError("Failed to add item: ${response.message()}")
                 }
@@ -236,7 +286,8 @@ class TambahBarangActivity : AppCompatActivity() {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             val byteArray = stream.toByteArray()
             val requestBody = byteArray.toRequestBody("image/*".toMediaTypeOrNull())
-            val multipartBody = MultipartBody.Part.createFormData("gambar", "image.jpg", requestBody)
+            val multipartBody =
+                MultipartBody.Part.createFormData("gambar", "image.jpg", requestBody)
 
             val response = barangApiService.uploadBarangImage(
                 id = barangId,

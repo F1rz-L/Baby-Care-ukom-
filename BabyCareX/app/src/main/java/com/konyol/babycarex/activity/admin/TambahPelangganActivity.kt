@@ -19,8 +19,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TambahPelangganActivity : AppCompatActivity() {
-    @Inject
-    lateinit var pelangganApiService: PelangganApiService
+    @Inject lateinit var pelangganApiService: PelangganApiService
     private lateinit var binding: ActivityTambahPelangganBinding
 
     private val pelangganId by lazy { intent.getIntExtra("pelangganId", 0) }
@@ -65,6 +64,7 @@ class TambahPelangganActivity : AppCompatActivity() {
                     nomor_telepon = noTelpText,
                     nik = nikText
                 )
+
                 if (pelangganId != 0) {
                     updatePelanggan(pelangganData)
                 } else {
@@ -73,6 +73,10 @@ class TambahPelangganActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Pelanggan cannot be empty", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        binding.btnBack.setOnClickListener {
+            finish()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
@@ -127,27 +131,15 @@ class TambahPelangganActivity : AppCompatActivity() {
                     val updatedPelanggan = response.body()
                     Log.d("TAG", "Pelanggan updated: $updatedPelanggan")
                     // Handle the success, e.g., update UI or notify user
-                    Toast.makeText(
-                        this@TambahPelangganActivity,
-                        "Berhasil memperbarui pelanggan!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@TambahPelangganActivity,"Berhasil memperbarui pelanggan!",Toast.LENGTH_SHORT).show()
                     finish()
                 } else {
                     // Handle the error
-                    Toast.makeText(
-                        this@TambahPelangganActivity,
-                        "Error: ${response.message()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@TambahPelangganActivity,"Error: ${response.message()}",Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(
-                    this@TambahPelangganActivity,
-                    "Exception: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@TambahPelangganActivity,"Exception: ${e.message}",Toast.LENGTH_SHORT).show()
             }
         }
     }

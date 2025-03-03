@@ -20,9 +20,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class TambahKategoriActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var kategoriApiService: KategoriApiService
+    @Inject lateinit var kategoriApiService: KategoriApiService
     private lateinit var binding: ActivityTambahKategoriBinding
+
+    private val kategoriId by lazy { intent.getIntExtra("kategoriId", 0) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +31,22 @@ class TambahKategoriActivity : AppCompatActivity() {
 
         binding = ActivityTambahKategoriBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (kategoriId != 0) {
+            lifecycleScope.launch {
+                try {
+                    val response = kategoriApiService.getKategoriById(kategoriId)
+                    if (response.isSuccessful) {
+                        val kategori = response.body()!!.data
+                        binding.etKategori.setText(kategori.kategori)
+                        binding.btnTmbhKategori.text = "Edit Kategori"
+                        binding.tvDisplayKategori.text = "Edit Kategori"
+                    }
+                } catch (e: Exception) {
+                    Log.e("Error", "Failed to fetch kategori: ${e.message}")
+                }
+            }
+        }
 
 
         // Create a new "kategori"
@@ -41,6 +58,9 @@ class TambahKategoriActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Kategori cannot be empty", Toast.LENGTH_SHORT).show()
             }
+        }
+        binding.btnBack.setOnClickListener {
+            finish()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
@@ -66,22 +86,37 @@ class TambahKategoriActivity : AppCompatActivity() {
                     ).show()
                     binding.etKategori.setText("")
                     finish()
-//                    startActivity(Intent(this@TambahKategoriActivity, AdminDashboardActivity::class.java))
                 } else {
-                    // Handle the error
-                    Toast.makeText(
-                        this@TambahKategoriActivity,
-                        "Error: ${response.message()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@TambahKategoriActivity,"Error: ${response.message()}",Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(
-                    this@TambahKategoriActivity,
-                    "Exception: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@TambahKategoriActivity,"Exception: ${e.message}",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun updateKategori(kategori: Kategori, kategoriId: Int) {
+        // Use a coroutine scope for the network request
+        lifecycleScope.launch {
+            try {
+                val response = kategoriApiService.updateKategori(kategoriId, kategori)
+                if (response.isSuccessful) {
+                    val addedKategori = response.body()
+                    Log.d("TAG", "Kategori added: $addedKategori")
+                    // Handle the success, e.g., update UI or notify user
+                    Toast.makeText(
+                        this@TambahKategoriActivity,
+                        "Berhasil memperbarui kategori!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    binding.etKategori.setText("")
+                    finish()
+                } else {
+                    Toast.makeText(this@TambahKategoriActivity,"Error: ${response.message()}",Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(this@TambahKategoriActivity,"Exception: ${e.message}",Toast.LENGTH_SHORT).show()
             }
         }
     }

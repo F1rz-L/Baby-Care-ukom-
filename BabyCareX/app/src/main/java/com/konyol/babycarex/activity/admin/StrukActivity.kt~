@@ -25,12 +25,9 @@ import kotlin.math.max
 class StrukActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStrukBinding
 
-    @Inject
-    lateinit var pinjamanApiService: PinjamanApiService
-    @Inject
-    lateinit var pelangganApiService: PelangganApiService
-    @Inject
-    lateinit var barangApiService: BarangApiService
+    @Inject lateinit var pinjamanApiService: PinjamanApiService
+    @Inject lateinit var pelangganApiService: PelangganApiService
+    @Inject lateinit var barangApiService: BarangApiService
 
     private val pinjamanId by lazy { intent.getIntExtra("pinjamanId", -1) }
 
@@ -61,9 +58,7 @@ class StrukActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val pinjaman = pinjamanApiService.getPinjamanById(pinjamanId).body()?.data
             val barangDipinjam = barangApiService.getBarangById(pinjaman!!.id_barang).body()?.data
-            val user = pinjaman!!.id_peminjam.let {
-                pelangganApiService.getPelangganById(it).body()!!.data
-            }
+            val user = pinjaman!!.id_peminjam.let { pelangganApiService.getPelangganById(it).body()!!.data }
 
             val tglPinjam = LocalDate.parse(pinjaman.tgl_pinjam)
             val tglKembali = LocalDate.parse(pinjaman.tgl_kembali)
@@ -81,28 +76,25 @@ class StrukActivity : AppCompatActivity() {
             sbHeader.append("Pelanggan: ").append(user.nama).append("\n")
             sbHeader.append("Alamat: ").append(user.alamat).append("\n")
             sbHeader.append("Telepon: ").append(user.nomor_telepon).append("\n")
-            sbHeader.append("Tanggal Awal: ")
-                .append(formatDate.format(parseDate.parse(pinjaman.tgl_pinjam)!!)).append("\n")
-            sbHeader.append("Tanggal Akhir: ")
-                .append(formatDate.format(parseDate.parse(pinjaman.tgl_kembali)!!)).append("\n")
+            sbHeader.append("Tanggal Awal: ").append(formatDate.format(parseDate.parse(pinjaman.tgl_pinjam)!!)).append("\n")
+            sbHeader.append("Tanggal Akhir: ").append(formatDate.format(parseDate.parse(pinjaman.tgl_kembali)!!)).append("\n")
 
-            when (pinjaman.status) {
+            when(pinjaman.status) {
                 "Dipinjam" -> sbHeader.append("Status: Dipinjam").append("\n")
                 "Dikembalikan" -> sbHeader.append("Status: Selesai").append("\n")
                 else -> sbHeader.append("Status: Dibatalkan").append("\n")
             }
 
-            sbFooter.append("Subtotal: ").append("Rp" + totalHarga).append("\n")
-            sbFooter.append("Denda: ").append("Rp" + pinjaman.denda).append("\n")
-            sbFooter.append("Subtotal: ").append("Rp" + totalHarga + pinjaman.denda).append("\n")
+            sbFooter.append("Total: ").append(totalHarga).append("\n")
+            sbFooter.append("Denda: ").append(pinjaman.denda).append("\n")
 
             binding.headerOrder.text = sbHeader.toString()
             binding.footerOrder.text = sbFooter.toString()
 
             binding.tvNamaBarang.text = barangDipinjam?.namabarang
-            binding.tvHargaAwal.text = "Rp" + barangDipinjam?.harga.toString()
-            binding.tvMingguPinjam.text = weeksDifference.toString() + " minggu"
-            binding.tvTotalHarga.text = "Rp" + totalHarga.toString()
+            binding.tvHargaAwal.text = barangDipinjam?.harga.toString()
+            binding.tvMingguPinjam.text = weeksDifference.toString()
+            binding.tvTotalHarga.text = totalHarga.toString()
         }
     }
 }

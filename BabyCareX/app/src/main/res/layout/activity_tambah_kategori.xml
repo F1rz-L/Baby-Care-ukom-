@@ -49,10 +49,11 @@
                 >
 
                 <TextView
+                    android:id="@+id/tvDisplayKategori"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppinsbold"
-                    android:text="Tambah Kategori Barang"
+                    android:text="Tambah Kategori"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
