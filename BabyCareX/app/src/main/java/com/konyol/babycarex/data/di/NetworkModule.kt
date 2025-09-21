@@ -22,7 +22,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_THING = "http://192.168.1.107:8000"
+    private const val BASE_THING = "http://192.168.187.58:8000"
 
     private const val BASE_URL = "$BASE_THING/api/" // Replace with your base URL
     const val BASE_IMG_URL = "$BASE_THING/storage/"

@@ -48,7 +48,7 @@ class VerificationActivity : AppCompatActivity() {
 
     private fun startCountdown() {
         binding.txtKirimUlang.isEnabled = false
-        countDownTimer = object : CountDownTimer(300000, 1000) { // 5 minutes in milliseconds
+        countDownTimer = object : CountDownTimer(100000, 1000) { // 5 minutes in milliseconds
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
                 val minutes = secondsRemaining / 60
@@ -77,13 +77,13 @@ class VerificationActivity : AppCompatActivity() {
                     startActivity(Intent(this@VerificationActivity, DashboardActivity::class.java))
                     finish()
                 } else {
-                    val errorMessage = response.errorBody()?.string()
+                    val errorMessage = response.body()?.message
                     Toast.makeText(this@VerificationActivity, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
                     Log.e("Login", "Error: $errorMessage")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@VerificationActivity, "An error occurred", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@VerificationActivity, "An error occurred: $e", Toast.LENGTH_SHORT).show()
             }
         }
     }

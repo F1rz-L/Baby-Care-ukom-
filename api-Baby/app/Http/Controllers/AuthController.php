@@ -25,13 +25,14 @@ class AuthController extends Controller
             'alamat' => 'required|string',
             'nik' => 'required|string|unique:users',
             // 'password' => 'required|string|min:6',
-            'password' => [
-                'required',
-                'string',
-                'min:6',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/',
-            ],
+            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/',
 
+        ], [
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Alamat email tidak valid',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 6 karakter',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol'
         ]);
 
         if ($userValidator->fails()) {
@@ -213,13 +214,16 @@ class AuthController extends Controller
             'email' => 'required|email',
             'otp' => 'required|size:6|regex:/^[0-9]+$/',
             // 'password' => 'required|string|min:6',
-            // 'password_confirmation' => 'required|string',
-            'password', 'password_confirmation' => [
-                'required',
-                'string',
-                'min:6',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/',
-            ],
+            // 'password_confirmation' => 'required|string|min:6',
+            // 'password', 'password_confirmation' => [
+                'password', 'password_confirmation' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/',
+            // ], 
+        ], [
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Alamat email tidak valid',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 6 karakter',
+            'password.regex' => 'Password harus mengandung huruf besar, huruf kecil, angka, dan simbol'
         ]);
 
         if ($validator->fails()) {

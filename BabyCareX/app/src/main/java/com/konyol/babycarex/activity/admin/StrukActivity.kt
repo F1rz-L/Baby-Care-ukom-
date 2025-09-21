@@ -94,7 +94,7 @@ class StrukActivity : AppCompatActivity() {
 
             sbFooter.append("Subtotal: ").append("Rp" + totalHarga).append("\n")
             sbFooter.append("Denda: ").append("Rp" + pinjaman.denda).append("\n")
-            sbFooter.append("Subtotal: ").append("Rp" + totalHarga + pinjaman.denda).append("\n")
+            sbFooter.append("Total: ").append("Rp" + totalHarga + pinjaman.denda).append("\n")
 
             binding.headerOrder.text = sbHeader.toString()
             binding.footerOrder.text = sbFooter.toString()

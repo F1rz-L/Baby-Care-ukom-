@@ -63,9 +63,7 @@ class RegisterActivity : AppCompatActivity() {
         Toast.makeText(this@RegisterActivity, "Registering..", Toast.LENGTH_SHORT).show()
         lifecycleScope.launch {
             try {
-                val intent = Intent(this@RegisterActivity, VerificationActivity::class.java)
-                intent.putExtra("email", email)
-                startActivity(intent)
+
                 val response = authApiService.register(
                     RegisterRequest(
                         nama,
@@ -82,6 +80,9 @@ class RegisterActivity : AppCompatActivity() {
 
                     authApiService.requestOTP(email)
 
+                    val intent = Intent(this@RegisterActivity, VerificationActivity::class.java)
+                    intent.putExtra("email", email)
+                    startActivity(intent)
                     finish()
                 } else {
                     val errorMessage = response.errorBody()?.string()
@@ -94,7 +95,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@RegisterActivity, "An error occurred", Toast.LENGTH_SHORT)
+                Toast.makeText(this@RegisterActivity, "An error occurred: $e", Toast.LENGTH_SHORT)
                     .show()
             }
         }
